@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Workplace Preferences Quiz</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; background: #f8fafc; color: #1e293b; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        h1 { color: #0f172a; text-align: center; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #64748b; margin-bottom: 30px; }
+        .q-group { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9; }
+        .q-title { font-weight: 600; font-size: 16px; margin-bottom: 12px; }
+        .option { display: block; margin: 10px 0; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+        .option:hover { background: #f1f5f9; }
+        input[type="radio"] { margin-right: 10px; transform: scale(1.1); }
+        button { width: 100%; padding: 15px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #1d4ed8; }
+        .result-box { display: none; text-align: center; background: #ecfdf5; border: 2px dashed #10b981; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .code-box { background: #f1f5f9; padding: 10px; font-family: monospace; font-size: 16px; border-radius: 4px; margin: 15px 0; word-break: break-all; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Candidate Work Preference Quiz</h1>
+        <div class="subtitle">Please answer honestly to map your ideal workplace alignment profile.</div>
+        
+        <form id="quizForm">
+            <div class="q-group">
+                <div class="q-title">1. Remote Work: How do you prefer to manage communication?</div>
+                <label class="option"><input type="radio" name="p1" value="A" required> A) Balanced focus blocks and scheduled async check-ins</label>
+                <label class="option"><input type="radio" name="p1" value="B"> B) Constantly logged into text chats/video rooms line-by-line</label>
+            </div>
+            <div class="q-group">
+                <div class="q-title">2. Communication Style: How do you solve friction with a colleague?</div>
+                <label class="option"><input type="radio" name="p2" value="A" required> A) Set up a quick visual sync to discuss and fix it directly</label>
+                <label class="option"><input type="radio" name="p2" value="B"> B) File it directly via manager oversight or CC stakeholders</label>
+            </div>
+            <div class="q-group">
+                <div class="q-title">3. Performance Metrics: What intrinsic anchor keeps you most motivated?</div>
+                <label class="option"><input type="radio" name="p3" value="A" required> A) Mastering complex project solutions with high structural autonomy</label>
+                <label class="option"><input type="radio" name="p3" value="B"> B) Highly direct monetary tracking per minor quota block</label>
+            </div>
+            <div class="q-group">
+                <div class="q-title">4. Growth Strategy: What structural path are you tracking right now?</div>
+                <label class="option"><input type="radio" name="p4" value="A" required> A) Expanding operational complexity and functional skill diversity</label>
+                <label class="option"><input type="radio" name="p4" value="B"> B) Climbing standard vertical hierarchy metrics with direct title shifts</label>
+            </div>
+            <div class="q-group">
+                <div class="q-title">5. Core Values: How do you execute scope balance under tight deadlines?</div>
+                <label class="option"><input type="radio" name="p5" value="A" required> A) Explicitly renegotiate project criteria with managers transparently</label>
+                <label class="option"><input type="radio" name="p5" value="B"> B) Shift rapid velocity priority forward, bypassing technical refinements</label>
+            </div>
+            <button type="submit">Submit My Profile Answers</button>
+        </form>
+
+        <div id="resultBox" class="result-box">
+            <h3 style="color:#065f46; margin:0;">Quiz Finished Successfully!</h3>
+            <p style="color:#047857;">Please copy the secure evaluation code below and paste it back to the hiring manager:</p>
+            <div id="profileCode" class="code-box"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = new FormData(this);
+            // Compile values into a single alphanumeric string code
+            const candidateCode = `CND-${data.get('p1')}${data.get('p2')}${data.get('p3')}${data.get('p4')}${data.get('p5')}`;
+            document.getElementById('profileCode').innerText = candidateCode;
+            document.getElementById('resultBox').style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+    </script>
+</body>
+</html>

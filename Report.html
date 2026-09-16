@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Suitability Match Dashboard</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f1f5f9; color: #334155; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        h1, h2 { text-align: center; color: #1e293b; }
+        .input-row { display: flex; gap: 15px; margin-bottom: 20px; }
+        .input-field { flex: 1; display: flex; flex-direction: column; }
+        label { font-weight: bold; margin-bottom: 5px; font-size: 14px; }
+        input { padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px; font-family: monospace; }
+        button { width: 100%; padding: 14px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-secondary { background: #64748b; color: white; display: none; }
+        .report-section { display: none; margin-top: 30px; border-top: 2px solid #e2e8f0; padding-top: 20px; }
+        .score-banner { text-align: center; padding: 25px; border-radius: 8px; font-size: 28px; font-weight: 800; margin-bottom: 25px; }
+        .high-match { background: #dcfce7; color: #15803d; }
+        .low-match { background: #fee2e2; color: #b91c1c; }
+        .pillar-block { padding: 15px; border-bottom: 1px solid #cbd5e1; }
+        .pillar-title { font-weight: bold; font-size: 18px; color: #0f172a; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin: 5px 0; }
+        .bg-ok { background: #dcfce7; color: #166534; }
+        .bg-fail { background: #fee2e2; color: #991b1b; }
+        @media print { .no-print { display: none !important; } body { background: white; margin: 0; } .card { box-shadow: none; } }
+    </style>
+</head>
+<body>
+    <div class="card no-print">
+        <h1>Culture Match Dashboard</h1>
+        <p style="text-align:center; color:#64748b;">Input codes received from the candidate and employer profiles below to evaluate data alignment metrics.</p>
+        
+        <div class="input-row">
+            <div class="input-field">
+                <label>Employer Matrix Profile Code</label>
+                <input type="text" id="empCode" placeholder="e.g., EMP-AAAAA">
+            </div>
+            <div class="input-field">
+                <label>Candidate Assessment Profile Code</label>
+                <input type="text" id="cndCode" placeholder="e.g., CND-AAAAA">
+            </div>
+        </div>
+        <button class="btn-primary" onclick="runAnalysis()">Process System Diagnostics & Match</button>
+        <button id="printBtn" class="btn-secondary" onclick="window.print()">Export Evaluated Report Layout to PDF</button>
+    </div>
+
+    <!-- Output Diagnostic Area -->
+    <div id="outputReport" class="card report-section">
+        <h2>Automated Structural Suitability Analysis</h2>
+        <div id="matchScore" class="score-banner"></div>
+        <div id="verdictBlock" style="font-weight: bold; text-align: center; font-size: 18px; margin-bottom: 30px;"></div>
+        <div id="breakdownOutput"></div>
+    </div>
+
+    <script>
+        const analysisMatrix = {
+            0: { title: "Remote Work Flexibility", match: "🎉 HIGH ALIGNMENT: Workplace metrics confirm synchronization parity on remote workflow trust profiles.", clash: "⚠️ SEVERE FRICTION: Operational parameters conflict. Employer profile dictates surveillance tracks, mismatching execution limits." },
+            1: { title: "Communication Style", match: "🎉 HIGH ALIGNMENT: Dialogue tracking parameters confirm matching structural clarity and active safety baselines.", clash: "⚠️ WARNING: Information flows are misaligned. Centralized structural boundaries contradict transparency requirements." },
+            2: { title: "Performance Metrics", match: "🎉 HIGH ALIGNMENT: Structural benchmarks check out. Evaluation paths align entirely on functional value execution targets.", clash: "⚠️ MISALIGNMENT: Presenteeism rules conflict with individual expectations tracking objective execution profiles." },
+            3: { title: "Growth & Trajectory", match: "🎉 HIGH ALIGNMENT: Development capabilities match individual technical scalability objectives perfectly.", clash: "⚠️ MISALIGNMENT: Internal deployment paths or hierarchical structural targets indicate divergent execution tracks." },
+            4: { title: "Core Work Values", match: "🎉 HIGH ALIGNMENT: Foundational diagnostic structures show total operational validation compatibility metrics.", clash: "⚠️ SEVERE FRICTION: High velocity requirements run counter to programmatic code configuration safety guidelines." }
+        };
+
+        function runAnalysis() {
+            const empRaw = document.getElementById('empCode').value.trim().toUpperCase();
+            const cndRaw = document.getElementById('cndCode').value.trim().toUpperCase();
+
+            if(!empRaw.startsWith("EMP-") || !cndRaw.startsWith("CND-") || empRaw.length !== 9 || cndRaw.length !== 9) {
+                alert("Invalid format detected. Please make sure codes are typed out completely exactly as generated (e.g. EMP-AAAAA / CND-AAAAA)");
+                return;
+            }
+
+            const empArr = empRaw.split('-')[1].split('');
+            const cndArr = cndRaw.split('-')[1].split('');
+            let scores = 0;
+            let displayHTML = "";
+
+            for(let i=0; i<5; i++) {
+                let status = (empArr[i] === "A" && cndArr[i] === "A");
+                if(status) scores++;
+
+                let msg = status ? analysisMatrix[i].match : analysisMatrix[i].clash;
+                displayHTML += `
+                    <div class="pillar-block">
+                        <div class="pillar-title">${analysisMatrix[i].title}</div>
+                        <div class="badge ${status ? 'bg-ok':'bg-fail'}">${status ? '✅ Match Validated' : '❌ Conflict Discovered'}</div>
+                        <div style="font-style:italic; color:#64748b; margin-top:5px;">${msg}</div>
+                    </div>
+                `;
+            }
+
+            const totalScore = (scores / 5) * 100;
+            const scoreBanner = document.getElementById('matchScore');
+            const vBlock = document.getElementById('verdictBlock');
+
+            scoreBanner.innerText = `Final Core Compatibility: ${totalScore}%`;
+            scoreBanner.className = `score-banner ${totalScore >= 80 ? 'high-match':'low-match'}`;
+            vBlock.innerText = totalScore >= 80 ? "🚀 STABLE WORKSPACE COMPATIBILITY DETECTED" : "⚖️ INTERACTION RISK TRACKED: Core structural adjustments advised.";
+
+            document.getElementById('breakdownOutput').innerHTML = displayHTML;
+            document.getElementById('outputReport').style.display = "block";
+            document.getElementById('printBtn').style.display = "block";
+        }
+    </script>
+</body>
+</html>

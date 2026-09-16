@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Culture Alignment Matrix</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; background: #fafaf9; color: #1c1917; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        h1 { color: #1c1917; text-align: center; }
+        .subtitle { text-align: center; color: #78716c; margin-bottom: 30px; }
+        .q-group { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #f5f5f4; }
+        .q-title { font-weight: 600; font-size: 16px; margin-bottom: 12px; }
+        .option { display: block; margin: 10px 0; padding: 12px; border: 1px solid #e7e5e4; border-radius: 6px; cursor: pointer; }
+        input[type="radio"] { margin-right: 10px; }
+        button { width: 100%; padding: 15px; background: #7c2d12; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #4c1d95; }
+        .result-box { display: none; text-align: center; background: #f5f3ff; border: 2px dashed #7c3aed; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .code-box { background: #f5f5f4; padding: 10px; font-family: monospace; font-size: 16px; border-radius: 4px; margin: 15px 0; word-break: break-all; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Employer System Profile Matrix</h1>
+        <div class="subtitle">Establish the operational baseline requirements for your open vacancy workspace environment.</div>
+        
+        <form id="employerForm">
+            <div class="q-group">
+                <div class="q-title">1. Operational Tracking Management Metrics</div>
+                <label class="option"><input type="radio" name="e1" value="A" required> A) Asynchronous milestone execution updates and outcome validation blocks</label>
+                <label class="option"><input type="radio" name="e1" value="B"> B) Systematic active status logs and strict hour block surveillance</label>
+            </div>
+            <div class="q-group">
+                <div class="q-title">2. Communication Pipelines & Feedback Matrix</div>
+                <label class="option"><input type="radio" name="e2" value="A" required> A) Active organizational transparency, peer feedback layers, and psychological validation safety</label>
+                <label class="option"><input type="radio" name="e2" value="B"> B) Standard structural isolation pipelines and segmented information boundaries</label>
+            </div>
+            <div class="q-group">
+                <div class="q-title">3. Team Alignment Framework & Criteria Checkpoints</div>
+                <label class="option"><input type="radio" name="e3" value="A" required> A) Value-driven metrics prioritizing quality output and objective mastery milestones</label>
+                <label class="option"><input type="radio" name="e3" value="B"> B) Visibility management metrics focused heavily on face-time interaction layers</label>
+            </div>
+            <div class="q-group">
+                <div class="q-title">4. Strategic Professional Development Paths</div>
+                <label class="option"><input type="radio" name="e4" value="A" required> A) Standard financial allocation limits covering lateral department mobility models</label>
+                <label class="option"><input type="radio" name="e4" value="B"> B) Title alignment progression frameworks built around direct structural hierarchy tracks</label>
+            </div>
+            <div class="q-group">
+                <div class="q-title">5. Dynamic Quality and Risk Controls</div>
+                <label class="option"><input type="radio" name="e5" value="A" required> A) Collaborative blameless diagnostic testing and systematic risk assessment reviews</label>
+                <label class="option"><input type="radio" name="e5" value="B"> B) Absolute optimization timelines requiring highly rapid task deployment profiles</label>
+            </div>
+            <button type="submit">Compile Employer Workspace Fingerprint</button>
+        </form>
+
+        <div id="resultBox" class="result-box">
+            <h3 style="color:#4c1d95; margin:0;">Matrix Mapping Complete!</h3>
+            <p style="color:#6d28d9;">Copy this structural baseline code to input into your analytics master dashboard:</p>
+            <div id="employerCode" class="code-box"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('employerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = new FormData(this);
+            const employerCode = `EMP-${data.get('e1')}${data.get('e2')}${data.get('e3')}${data.get('e4')}${data.get('e5')}`;
+            document.getElementById('employerCode').innerText = employerCode;
+            document.getElementById('resultBox').style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+    </script>
+</body>
+</html>
